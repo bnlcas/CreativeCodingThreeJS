@@ -9,7 +9,11 @@ var orbital_radius = 5;
 var orb_radius = 2.2;
 
 var geometry = new THREE.SphereGeometry(orb_radius, 128, 128);
-var material = new THREE.MeshLambertMaterial();
+
+const texture = new THREE.TextureLoader().load('Assets/cloudtex.jpeg' );
+
+var material = new THREE.MeshBasicMaterial( { map: texture } );
+//var material = new THREE.MeshLambertMaterial();
 
 var orb = new THREE.Mesh(geometry, material);
 orb.scale.set(1,1.4,1);
