@@ -12,14 +12,15 @@ var geometry = new THREE.SphereGeometry(orb_radius, 128, 128);
 var material = new THREE.MeshLambertMaterial();
 
 var orb = new THREE.Mesh(geometry, material);
+orb.scale.set(1,1.4,1);
 scene.add(orb);
 
 //Lighting:
-var colors = [0xC41ACC, 0x5ED2D1, 0xC556D, 0x5CD1B0, 0xC97EEC, 0x6DEBF2];
+var colors = [0xdbc4ae, 0xdbc4ae, 0xdbc4ae];// 0x5CD1B0, 0xC97EEC, 0x6DEBF2];
 var light_distance = 5;
 for(var i = 0; i < colors.length; i++)
 {
-  var light = new THREE.PointLight(colors[i], 0.6, 100);
+  var light = new THREE.PointLight(colors[i], 0.8, 100);
   var cycle = 2*Math.PI * (i / colors.length);
   light.position.set(light_distance * Math.cos(cycle),
                 2*Math.sin(cycle),
@@ -36,15 +37,14 @@ function RotateCamera(cycle_angle)
   camera.lookAt(new THREE.Vector3(0,0,0));
 }
 
-var cycle_angle = 0.0;
-var cycle_increment = 0.01;
-RotateCamera(cycle_angle);
+var increment = 0.0;
+RotateCamera(0);
 
-function animate()
+function Update()
 {
-  requestAnimationFrame(animate);
   renderer.render(scene, camera);
-  cycle_angle += cycle_increment;
-  RotateCamera(cycle_angle);
+  orb.position.set(Math.sin(increment), 0, 0)
+  increment += 0.1;
+  requestAnimationFrame(Update);
 }
-animate();
+Update();
