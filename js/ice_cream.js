@@ -51,12 +51,13 @@ function fragmentShader() {
 
     vec4 color = dProd*vec4(color,1.0);
     
-   //vec2 uv = mod((vUv + vec2(-sin(time/10.0)/2.0, time/10.0)) * 0.6 + vec2(-0.003*time), 1.0);
-    //vec2 uv2 =mod((vUv + vec2(sin(time/10.0)/9.0, time/14.0)) * 0.9  + vec2(time*0.002),1.0);
-    vec2 offset = mod(vec2(time),1.0);//vec2(sin(100.0 * time), -cos(300.0*time));
-    vec2 uv = mod(vUv + offset, 1.0);
+    vec2 uv = mod((vUv + vec2(-sin(time/10.0)/2.0, time/10.0)) * 0.6 + vec2(-0.003*time), 1.0);
+    vec2 uv2 = mod((vUv + vec2(sin(time/10.0)/9.0, time/14.0)) * 0.9  + vec2(time*0.002),1.0);
+    //vec2 offset = mod(vec2(time),1.0);//vec2(sin(100.0 * time), -cos(300.0*time));
+    //vec2 uv = mod(vUv + offset, 1.0);
     float glitter = texture2D(randomTexture, uv).r;
-    glitter = 8.0 * pow(glitter, 20.0);
+    glitter *= texture2D(randomTexture, uv2).b;
+    glitter = 25.0 * pow(glitter, 11.0);
     glitter = clamp(glitter,0.0, 1.0);
 
     vec4 glitterColor = mix( color, vec4(glitter), glitter);
@@ -125,7 +126,7 @@ for(var i = 0; i < colors.length; i++)
 var t = 0.0;
 function Update()
 {
-    t += 0.001;
+    t += 0.0005;
    glitterMaterial.uniforms.time.value = t;//Date.now()/1000.0;
   renderer.render(scene, camera);
   //orb.material.uniforms.amplitude = {type: "float", value:  0.5*(1 + Math.sin(increment))}
