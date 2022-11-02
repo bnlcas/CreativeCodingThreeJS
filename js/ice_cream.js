@@ -99,7 +99,21 @@ orb.scale.set(0.55,0.55,0.55);
 orb.position.set(0,0.2,0);
 scene.add(orb);
 
+//Eyes:
+var eyeMaterial = new THREE.MeshBasicMaterial( { color: 0x36454F } );
+var eyeR = new THREE.Mesh(geometry, eyeMaterial);
+eyeR.scale.set(0.08,0.08,0.08);
+eyeR.position.set(0.2,0.3,0.5);
+scene.add(eyeR);
+var eyeL = new THREE.Mesh(geometry, eyeMaterial);
+eyeL.scale.set(0.08,0.08,0.08);
+eyeL.position.set(-0.2,0.3,0.5);
+scene.add(eyeL);
 
+var mouth = new THREE.Mesh(geometry, eyeMaterial);
+mouth.scale.set(0.3,0.08,0.08);
+mouth.position.set(0,0.1,0.5);
+scene.add(mouth);
 var coneGeomtery = new THREE.ConeGeometry( 0.5, 1.5, 32 );
 const coneTexture = new THREE.TextureLoader().load( './Assets/waffle_cone.jpg' );
 
