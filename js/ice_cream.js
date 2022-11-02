@@ -43,7 +43,6 @@ function fragmentShader() {
   uniform sampler2D randomTexture;
 
   void main() {
-
     vec3 light = vec3( 0.5, 0.2, 1.0 );
     light = normalize( light );
 
@@ -56,18 +55,18 @@ function fragmentShader() {
     //vec2 offset = mod(vec2(time),1.0);//vec2(sin(100.0 * time), -cos(300.0*time));
     //vec2 uv = mod(vUv + offset, 1.0);
     float glitter = texture2D(randomTexture, uv).r;
-    glitter *= texture2D(randomTexture, uv2).b;
+    glitter *= texture2D(randomTexture, uv2).g;
     glitter = 25.0 * pow(glitter, 11.0);
-    glitter = clamp(glitter,0.0, 1.0);
+    glitter = step(0.95,glitter);
 
-    vec4 glitterColor = mix( color, vec4(glitter), glitter);
+    vec4 glitterColor = mix(color, vec4(glitter), glitter);
     gl_FragColor = glitterColor;
   }
   `
 }
 
 
-function createGlitterMaterial() {      
+function CreateGlitterMaterial() {      
   const shader = new THREE.ShaderMaterial({
     uniforms: {
         time: {type: 'float', value: 1.0},
@@ -78,14 +77,10 @@ function createGlitterMaterial() {
     fragmentShader: fragmentShader()
   });
   return shader;
-  /*
-  return {
-    shader
-  }*/
 }
 
-var geometry = new THREE.SphereGeometry(1, 32, 32);
-var glitterMaterial = createGlitterMaterial();
+var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+var glitterMaterial = CreateGlitterMaterial();
 /*
 //var material = new THREE.MeshBasicMaterial( { color: 0xffff00 });// { map: texture } )
 var material = new THREE.MeshPhongMaterial();
@@ -94,31 +89,32 @@ material.specular = new THREE.Color(0xFFFFFF);
 //material.flatShading = true;
 //var material = createMaterials();*/
 
-var orb = new THREE.Mesh(geometry, glitterMaterial);// material.cubeShader);
+var orb = new THREE.Mesh(sphereGeometry, glitterMaterial);// material.cubeShader);
 orb.scale.set(0.55,0.55,0.55);
 orb.position.set(0,0.2,0);
 scene.add(orb);
 
 //Eyes:
-var eyeMaterial = new THREE.MeshBasicMaterial( { color: 0x36454F } );
-var eyeR = new THREE.Mesh(geometry, eyeMaterial);
+var eyeMaterial = new THREE.MeshPhongMaterial( { color: 0x36454F } );
+var eyeR = new THREE.Mesh(sphereGeometry, eyeMaterial);
 eyeR.scale.set(0.08,0.08,0.08);
 eyeR.position.set(0.2,0.3,0.5);
 scene.add(eyeR);
-var eyeL = new THREE.Mesh(geometry, eyeMaterial);
+var eyeL = new THREE.Mesh(sphereGeometry, eyeMaterial);
 eyeL.scale.set(0.08,0.08,0.08);
 eyeL.position.set(-0.2,0.3,0.5);
 scene.add(eyeL);
 
-var mouth = new THREE.Mesh(geometry, eyeMaterial);
-mouth.scale.set(0.3,0.08,0.08);
+var mouth = new THREE.Mesh(sphereGeometry, eyeMaterial);
+mouth.scale.set(0.3,0.08,0.04);
 mouth.position.set(0,0.1,0.5);
 scene.add(mouth);
 var coneGeomtery = new THREE.ConeGeometry( 0.5, 1.5, 32 );
 const coneTexture = new THREE.TextureLoader().load( './Assets/waffle_cone.jpg' );
 
 // immediately use the texture for material creation
-const cMaterial = new THREE.MeshBasicMaterial({ map: coneTexture } );
+//MeshBasicMaterial
+const cMaterial = new THREE.MeshPhongMaterial({ map: coneTexture } );
 const cone = new THREE.Mesh( coneGeomtery, cMaterial );
 cone.position.set(0,-0.7,0);
 cone.rotation.set(3.1415, 0,0);
@@ -129,10 +125,10 @@ var colors = [0xEEECA8  , 0xEEECA8 ,  0xEEECA8];
 var light_distance = 5;
 for(var i = 0; i < colors.length; i++)
 {
-  var light = new THREE.PointLight(colors[i], 0.8, 100);
+  var light = new THREE.DirectionalLight(colors[i], 0.8, 100);
   var cycle = 2*Math.PI * (i / colors.length);
   light.position.set(light_distance * Math.cos(cycle),
-                2*Math.sin(cycle),
+                2*Math.sin(cycle) + 3,
               light_distance * Math.sin(cycle));
   scene.add(light);
 }
@@ -145,13 +141,13 @@ navigator.mediaDevices.getUserMedia({
     video: false
   })
     .then(function(stream) {
-      const audioContext = new AudioContext();
+      const audioContext = new AudioContext({sampleRate: 44100,});
       const analyser = audioContext.createAnalyser();
       const microphone = audioContext.createMediaStreamSource(stream);
       const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
   
-      analyser.smoothingTimeConstant = 0.8;
-      analyser.fftSize = 1024;
+      analyser.smoothingTimeConstant = 0.01;
+      analyser.fftSize = 512;
   
       microphone.connect(analyser);
       analyser.connect(scriptProcessor);
@@ -175,14 +171,12 @@ navigator.mediaDevices.getUserMedia({
 var t = 0.0;
 function Update()
 {
-    t += 0.0005;
-   glitterMaterial.uniforms.time.value = t;//Date.now()/1000.0;
+  t += 0.0008;
+  glitterMaterial.uniforms.time.value = t;
   renderer.render(scene, camera);
-  //orb.material.uniforms.amplitude = {type: "float", value:  0.5*(1 + Math.sin(increment))}
-  //orb.material.uniforms.fadeIntensity = {type: "float", value:  Math.sin(increment)}
-  //orb.material.uniforms.fadePoint = {type: 'vec3', value: new THREE.Vector3(1 + Math.sin(increment),0,0) },
+
   let mouth_size = 0.08 + 0.2 * Math.pow(soundIntensity,2) / 10000; 
-  mouth.scale.set(0.3,mouth_size,0.08);
+  mouth.scale.set(0.3,mouth_size, 0.1);
   requestAnimationFrame(Update);
 }
 Update();
