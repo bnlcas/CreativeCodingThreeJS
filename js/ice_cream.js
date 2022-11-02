@@ -133,9 +133,22 @@ for(var i = 0; i < colors.length; i++)
   scene.add(light);
 }
 
+function UpdateSoundScore()
+{
+  const isLoud = soundIntensity > 0.6;
+  if(isLoud)
+  {
+    soundScore = 0.9 * soundScore + 0.1 * soundIntensity;
+  }
+  else
+  {
+    soundScore = soundIntensity/2;
+  }
+}
 
 //Audio Stack:
 var soundIntensity = 0.0;
+var soundScore = 0.0;
 navigator.mediaDevices.getUserMedia({
     audio: true,
     video: false
@@ -158,6 +171,7 @@ navigator.mediaDevices.getUserMedia({
         const arraySum = array.reduce((a, value) => a + value, 0);
         const average = arraySum / array.length;
         soundIntensity = average;
+        UpdateSoundScore(soundIntensity);
 
         //console.log(Math.round(average));
         // colorPids(average);
