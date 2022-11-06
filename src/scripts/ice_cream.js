@@ -71,7 +71,7 @@ function CreateGlitterMaterial() {
     uniforms: {
         time: {type: 'float', value: 1.0},
         color: {type: 'vec3', value: new THREE.Color(0xEAE49E)},
-        randomTexture: { value: new THREE.TextureLoader().load( './Assets/RandomNoise.png' ) }
+        randomTexture: { value: new THREE.TextureLoader().load( '../Assets/RandomNoise.png' ) }
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader()
@@ -110,7 +110,7 @@ mouth.scale.set(0.3,0.08,0.04);
 mouth.position.set(0,0.1,0.5);
 scene.add(mouth);
 var coneGeomtery = new THREE.ConeGeometry( 0.5, 1.5, 32 );
-const coneTexture = new THREE.TextureLoader().load( './Assets/waffle_cone.jpg' );
+const coneTexture = new THREE.TextureLoader().load( '../Assets/waffle_cone.jpg' );
 
 // immediately use the texture for material creation
 //MeshBasicMaterial
