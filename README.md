@@ -15,4 +15,6 @@ npm run watch
 ```
 
 ### Open
-`localhost:8000`
+```
+localhost:8000
+```
