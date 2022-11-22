@@ -1,6 +1,8 @@
 const express = require('express'); // web framework
+const app = express();
 require('dotenv').config(); 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { User } = require("./models")
 
 const uri = `mongodb+srv://${process.env.dbUser}:${process.env.dbPw}@cluster0.m4fpkbp.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -24,9 +26,6 @@ client.connect(err => {
   client.close();
 });
 
-
-
-const app = express();
 app.use(express.static('src')); 
 
 app.get('/', (request, response) => {

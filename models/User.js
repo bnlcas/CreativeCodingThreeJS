@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   id: String,
   name: String,
   country: String,
   flavor: String
+  // flavor could be an obj with more attributes
 })
 
-mongoose.model('users', userSchema)
+const User = mongoose.model('users', UserSchema)
+
+module.exports = { User }
