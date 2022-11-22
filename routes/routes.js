@@ -14,6 +14,7 @@ router.post("/users", async (req, res) => {
   const user = new User({
     name: req.body.name,
 		country: req.body.country,
+		score: req.body.score,
     flavor: req.body.flavor
 	})
 	await user.save()
