@@ -10,7 +10,7 @@ const config = {
     path.resolve(__dirname, 'src', 'styles/index.css'),
   ],
   output: {
-    path: path.join(__dirname, 'src'),
+    path: path.join(__dirname, '/api/dist'),
     filename: '[name].js',
   },
   module: {

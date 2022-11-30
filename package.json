@@ -2,7 +2,7 @@
   "name": "creativecodingthreejs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "browserslist": [
     "defaults"
   ],
@@ -10,8 +10,8 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "start:debug": "node --inspect index.js",
+    "start": "node api/index.js",
+    "start:debug": "node --inspect api/index.js",
     "watch": "webpack --watch --mode=development",
     "build": "webpack --mode=production"
   },
