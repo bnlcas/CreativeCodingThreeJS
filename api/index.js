@@ -1,8 +1,16 @@
-const express = require('express'); // web framework
+const express = require('express');
 const app = express();
 require('dotenv').config(); 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { User } = require("./models/User")
+const { v4 } = require('uuid');
+
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
 
 const uri = `mongodb+srv://${process.env.dbUser}:${process.env.dbPw}@cluster0.m4fpkbp.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -36,3 +44,5 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Listening at localhost:${PORT}`);
 });
+
+module.exports = app;

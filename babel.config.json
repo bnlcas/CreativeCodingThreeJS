@@ -1,3 +1,5 @@
+// transform modern js syntax into browser compatible js
+
 {
   "presets": [
     [

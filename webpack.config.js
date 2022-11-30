@@ -1,3 +1,6 @@
+// webpack maps original_source_code.js into smaller, faster main.js
+// we use webpack for scalability
+
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -7,25 +10,25 @@ const config = {
     path.resolve(__dirname, 'src', 'styles/index.css'),
   ],
   output: {
-    path: path.join(__dirname, 'src'), // bundled file in dist/
+    path: path.join(__dirname, 'src'),
     filename: '[name].js',
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader'], // transpiles js
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
-        test: /\.s?[ac]ss$/, // css/scss/sass files
+        test: /\.s?[ac]ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader', // resolves @import
+            loader: 'css-loader',
             options: { url: false }
           },
-          'sass-loader', // compile sass to css
+          'sass-loader',
         ]
       }
     ],
@@ -35,7 +38,7 @@ const config = {
 
 module.exports = (env, argv) => {
   if (argv.mode === 'production') {
-    config.devtool = 'source-map';
+    config.devtool = 'source-map';    // keep track of where bundled code came from + what original source files looked like
   } else {
     config.devtool = 'eval-source-map';
   }

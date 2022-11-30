@@ -10,8 +10,8 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node app.js",
-    "start:debug": "node --inspect app.js",
+    "start": "node index.js",
+    "start:debug": "node --inspect index.js",
     "watch": "webpack --watch --mode=development",
     "build": "webpack --mode=production"
   },
