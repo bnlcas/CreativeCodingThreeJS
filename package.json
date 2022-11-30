@@ -3,17 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "api/index.js",
-  "browserslist": [
-    "defaults"
-  ],
-  "engines": {
-    "node": "16.x"
-  },
   "scripts": {
-    "start": "node api/index.js",
-    "start:debug": "node --inspect api/index.js",
-    "watch": "webpack --watch --mode=development",
-    "build": "webpack --mode=production"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,20 +19,8 @@
   },
   "homepage": "https://github.com/stella0000000/CreativeCodingThreeJS#readme",
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
-    "babel-loader": "^9.1.0",
-    "core-js": "^3.26.0",
-    "css-loader": "^6.7.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mini-css-extract-plugin": "^2.6.1",
-    "mongoose": "^6.7.2",
-    "node-fetch": "^3.2.10",
-    "regenerator-runtime": "^0.13.10",
-    "sass": "^1.56.0",
-    "sass-loader": "^13.1.0",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "mongoose": "^6.7.2"
   }
 }

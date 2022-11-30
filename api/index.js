@@ -34,11 +34,11 @@ client.connect(err => {
   client.close();
 });
 
-app.use(express.static('src')); 
+app.use(express.static('public'))
 
-app.get('/', (request, response) => {
-  response.sendFile(`${__dirname}/dist/index.html`);
-});
+app.get('/', (req, res) => {
+  res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+})
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
